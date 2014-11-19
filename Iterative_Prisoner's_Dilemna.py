@@ -199,15 +199,18 @@ def get_action(player, history, opponent_history, score, opponent_score, getting
     #
     elif player == 4:
         if getting_team_name:
-            return 'betray every 3rd round'
+            return 'Fire Breathing Rubber Duckies'
         else:
-            # use history, opponent_history, score, opponent_score
-            # to compute your strategy
-            size = len(history)
-            if(size%3==0): #the number of rounds played is a multiple of 3
+            if len(opponent_history)==0:
                 return 'c'
-            else:
+            elif history[-1]=='c' and opponent_history[-1]=='b':
                 return 'b'
+            else:
+                if opponent_history[-1] == history[-1]:
+                    return history[-1]
+                else:
+                    return opponent_history[-2]
+    
     
     
     

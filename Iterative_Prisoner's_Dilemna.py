@@ -266,16 +266,24 @@ def get_action(player, history, opponent_history, score, opponent_score, getting
     #
     elif player == 6:
         if getting_team_name:
-            return '   '
+            return 'greedy copycat'
         else:
-            # use history, opponent_history, score, opponent_score
+            # use opponent_history, score, opponent_score
             # to compute your strategy
-            if len(opponent_history)==0: #It's the first round: collude
-                return 'c'
-            elif history[-1]=='c' and opponent_history[-1]=='b':
-                return 'b' # betray is they were severely punished last time
-            else:
-                return 'c' #otherwise collude
+            if len(opponent_history)==0: #It's the first round: betray/random
+                return 'b'
+            elif 'c' > 'b' in opponent_history:
+                if score < opponent_score: 
+                    return 'b' # betray if their score is higher
+                else:
+                    return 'c'
+            elif 'b' > 'c' in opponent_history: 
+                return 'b' # betray them if they've betrayed more
+            elif 'c' == 'b' in opponent_history: 
+                if score < opponent_score:
+                    return 'b'
+                else:
+                    return 'c'
     
 
 

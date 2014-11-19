@@ -110,11 +110,36 @@ def get_action(player, history, opponent_history, score, opponent_score, getting
     #
     # This example player always colludes
     if player == 0:
-        if getting_team_name:
-            return 'loyal'
+             if getting_team_name:
+            #if there was a previous round just like 
+            return 'catcat'
         else:
-            return 'c'
-
+            # use history, opponent_history, score, opponent_score
+            # to compute your strategy      
+            if len(opponent_history)==0: #It's the first round: collude
+                return 'c'
+            else:
+                # if there was a previous round just like the last one,
+                # do whatever they did in the round that followed it
+                recent_round_opponent = opponent_history[-1]
+                recent_round_me = history[-1]
+                            
+                #go through rounds before that one
+                for round in range(len(history)-1):
+                    prior_round_opponent = opponent_history[round]
+                    prior_round_me = history[round]
+                    #if one matches
+                    if (prior_round_me == recent_round_me) and \
+                            (prior_round_opponent == recent_round_opponent):
+                        return opponent_history[round]
+                    if (prior_round_me == history [-2]) and \
+                            (prior_round_opponent == recent_round_opponent):
+                        return opponent_history[-2]
+            
+                if history[-1]=='c' and opponent_history[-1]=='b':
+                    return 'b' 
+                else:
+                    return 'c' 
     
         
             

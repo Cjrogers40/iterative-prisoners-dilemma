@@ -233,6 +233,8 @@ def get_action(player, history, opponent_history, score, opponent_score, getting
             else:
                 if random.random()<0.1: #10% of the other rounds
                     return 'b'         #betray
+             else:
+                    return 'c'
     
     
     

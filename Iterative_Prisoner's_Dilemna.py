@@ -44,36 +44,38 @@ def play_round(player1, player2, history1, history2, score1, score2):
         action1=' '
     if type(action2) != str:
         action2=' '
+    #return collude if anything other than b or c is returned
+    if action1 not in ('c','b'):
+        action1 = 'c'
+    if action2 not in ('c','b'):
+        action2 = 'c'
+        
+    
     #Append the actions to the previous histories, to return
     new_history1 = history1 + action1
     new_history2 = history2 + action2
     
     #Change scores based upon player actions
-    if action1 not in ('c','b') or action2 not in ('c','b'):
-    # Do nothing if someone's code returns an improper action
-        new_score1 = score1
-        new_score2 = score2
         
-    else: 
     #Both players' code provided proper actions
-        if action1 == 'c':
-            if action2 == 'c':
-                # both players collude; get reward
-                new_score1 = score1 + RELEASE
-                new_score2 = score2 + RELEASE
-            else:
-                # players 1,2 collude, betray; get sucker, tempation
-                new_score1 = score1 + SEVERE_PUNISHMENT
-                new_score2 = score2 + TREAT
+    if action1 == 'c':
+        if action2 == 'c':
+            # both players collude; get reward
+            new_score1 = score1 + RELEASE
+            new_score2 = score2 + RELEASE
         else:
-            if action2 == 'c':
-                # players 1,2 betray, collude; get tempation, sucker
-                new_score1 = score1 + TREAT
-                new_score2 = score2 + SEVERE_PUNISHMENT                       
-            else:
-                # both players betray; get punishment   
-                new_score1 = score1 + PUNISHMENT
-                new_score2 = score2 + PUNISHMENT
+            # players 1,2 collude, betray; get sucker, tempation
+            new_score1 = score1 + SEVERE_PUNISHMENT
+            new_score2 = score2 + TREAT
+    else:
+        if action2 == 'c':
+            # players 1,2 betray, collude; get tempation, sucker
+            new_score1 = score1 + TREAT
+            new_score2 = score2 + SEVERE_PUNISHMENT                       
+        else:
+            # both players betray; get punishment   
+            new_score1 = score1 + PUNISHMENT
+            new_score2 = score2 + PUNISHMENT
                     
     #send back the updated histories and scores
     return (new_history1, new_history2, new_score1, new_score2)
@@ -110,7 +112,7 @@ def get_action(player, history, opponent_history, score, opponent_score, getting
     #
     # This example player always colludes
     if player == 0:
-             if getting_team_name:
+        if getting_team_name:
             #if there was a previous round just like 
             return 'catcat'
         else:
@@ -139,30 +141,27 @@ def get_action(player, history, opponent_history, score, opponent_score, getting
                 if history[-1]=='c' and opponent_history[-1]=='b':
                     return 'b' 
                 else:
-                    return 'c' 
-    
-        
-            
-                
-                    
+                    return 'c'             
                             
     ######
     ######
     #
     #This example player always betrays.      
-   elif player == 1:
-        if getting_team_name:Lamar&Rory 
+    elif player == 1:
+        if getting_team_name:
             return 'Lamar&Rory' 
         else: 
             if len(opponent_history)==0: #It's the first round: collude 
                  return 'b' 
             elif history[-1]=='b' and opponent_history[-1]=='b': 
                  return 'b' # betray if they were severely punished last time 
-            else: #use history, opponet_history, score, opponet_score,  
+            #else: #use history, opponet_history, score, opponet_score,  
                    #to compute strategy    
-                return 'c' #otherwise collude 
-            elif history[-1]=='c' and opponet_history[-1]=='c' 
-                return 'c'    
+            #    return 'c' #otherwise collude 
+            elif history[-1]=='c' and opponent_history[-1]=='c': 
+                return 'c'
+            else:
+                return 'q'
 
 
 

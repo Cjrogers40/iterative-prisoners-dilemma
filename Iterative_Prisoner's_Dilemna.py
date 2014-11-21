@@ -336,34 +336,16 @@ def get_action(player, history, opponent_history, score, opponent_score, getting
     ######
     ######        
     #
-    elif player == 8:
+    elif player == 16:
         if getting_team_name:
-            #if there was a previous round just like 
-            return '   '
+            return 'RBGbitDeadpool'
         else:
-            # use history, opponent_history, score, opponent_score
-            # to compute your strategy      
-            if len(opponent_history)==0: #It's the first round: collude
+            pi_list = [3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5, 8, 9, 3, 2, 3, 8, 4, 6, 2, 6, 4, 3, 3, 8, 3, 2, 7, 9, 5, 0, 2, 8, 8, 4, 1, 9, 7, 1, 6, 9, 3, 9, 9, 3, 7, 5, 1, 0, 5, 8, 2, 0, 9, 7, 4, 9, 4, 4, 5, 9, 2, 3, 0, 7, 8, 1, 6, 4, 0, 6, 2, 8, 6, 2, 0, 8, 9, 9, 8, 6, 2, 8, 0, 3, 4, 8, 2, 5, 3, 4, 2, 1, 1, 7, 0, 6, 7, 9, 8, 2, 1, 4, 8, 6, 5, 1, 3, 2, 8, 2, 3, 0, 6, 6, 4, 7, 0, 9, 3, 8, 4, 4, 6, 0, 9, 5, 5, 0, 5, 8, 2, 2, 3, 1, 7, 2, 5, 3, 5, 9, 4, 0, 8, 1, 2, 8, 4, 8, 1, 1, 1, 7, 4, 5, 0, 2, 8, 4, 1, 0, 2, 7, 0, 1, 9, 3, 8, 5, 2, 1, 1, 0, 5, 5, 5, 9, 6, 4, 4, 6, 2, 2, 9, 4, 8, 9, 5, 4, 9, 3, 0, 3, 8, 1, 9, 6, 4, 4, 2, 8 ] 
+            pi_list[len(history)]%2
+            if pi_list[len(history)]%2==0:
                 return 'c'
             else:
-                # if there was a previous round just like the last one,
-                # do whatever they did in the round that followed it
-                recent_round_opponent = opponent_history[-1]
-                recent_round_me = history[-1]
-                            
-                #go through rounds before that one
-                for round in range(len(history)-1):
-                    prior_round_opponent = opponent_history[round]
-                    prior_round_me = history[round]
-                    #if one matches
-                    if (prior_round_me == recent_round_me) and \
-                            (prior_round_opponent == recent_round_opponent):
-                        return opponent_history[round]
-                # no match found
-                if history[-1]=='c' and opponent_history[-1]=='b':
-                    return 'b' # betray is they were severely punished last time
-                else:
-                    return 'c' #otherwise collude
+                return 'b'
 
 
 
